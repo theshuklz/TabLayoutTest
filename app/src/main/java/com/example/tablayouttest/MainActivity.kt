@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                tabLayout.setScrollPosition(prevTab!!.position, 0f, true)
+                //this ensures that the new tab is not shown as selected yet until user presses OK
+                tabLayout.setScrollPosition(prevTab!!.position, 0f, false)
 
                 if (tab.position == 1)
                     showMyDialog(
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
                 if (prevTab != tab)
                     prevTab = tab
                 viewPager.currentItem = tab.position
+                //this updates the tabSelected animation to happen only when user pressed OK
                 tabLayout.setScrollPosition(tab.position, 0f, true)
             }
 
