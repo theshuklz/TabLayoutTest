@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,6 +14,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.tablayouttest.databinding.ActivityMainBinding
 import com.example.tablayouttest.databinding.FragmentPageBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity() {
@@ -53,8 +53,6 @@ class MainActivity : AppCompatActivity() {
         tabLayout.addTab(tabLayout.newTab().setText("Tab-3"))
         tabLayout.addTab(tabLayout.newTab().setText("Tab-4"))
 
-        prevTab = tabLayout.getTabAt(0)
-
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -82,15 +80,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             private fun onTabChangeSuccess(tab: TabLayout.Tab) {
-                if (prevTab != tab)
-                    prevTab = tab
                 viewPager.currentItem = tab.position
                 //this updates the tabSelected animation to happen only when user pressed OK
                 tabLayout.setScrollPosition(tab.position, 0f, true)
             }
 
             private fun showMyDialog(onNegativeClick: () -> Unit, onPositiveClick: () -> Unit) {
-                AlertDialog.Builder(this@MainActivity)
+                MaterialAlertDialogBuilder(this@MainActivity)
                     .apply {
                         setCancelable(false)
                         setTitle("Do you really want to continue?")
@@ -106,10 +102,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
+                prevTab = tab
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
 
         })
     }
